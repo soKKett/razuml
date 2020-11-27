@@ -9,45 +9,45 @@ $form4 = '"'.$_POST['impnews-4'].'"';
 $query1 = "
 UPDATE `news`
 SET `imp_place` = 1
-WHERE `headliner` = {$form1}";
+WHERE `id` = {$form1}";
 
 $query2 = "
 UPDATE `news`
 SET `imp_place` = 2
-WHERE `headliner` = {$form2}";
+WHERE `id` = {$form2}";
 
 $query3 = "
 UPDATE `news`
 SET `imp_place` = 3
-WHERE `headliner` = {$form3}";
+WHERE `id` = {$form3}";
 
 $query4 = "
 UPDATE `news`
 SET `imp_place` = 4
-WHERE `headliner` = {$form4}";
+WHERE `id` = {$form4}";
 
-$wipe1 = 
+$wipe1 =
 "
 UPDATE `news`
 SET `imp_place` = 0
 WHERE `imp_place` = 1
 ";
 
-$wipe2 = 
+$wipe2 =
 "
 UPDATE `news`
 SET `imp_place` = 0
 WHERE `imp_place` = 2
 ";
 
-$wipe3 = 
+$wipe3 =
 "
 UPDATE `news`
 SET `imp_place` = 0
 WHERE `imp_place` = 3
 ";
 
-$wipe4 = 
+$wipe4 =
 "
 UPDATE `news`
 SET `imp_place` = 0

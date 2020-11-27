@@ -4,13 +4,26 @@ $form1 = '"'.$_POST['headliner'].'"';
 $form2 = '"'.$_POST['description'].'"';
 $form3 = '"'.$_POST['formeditor'].'"';
 $form4 = '"'.$_POST['zag'].'"';
+$url1 = "/razuml/news/{$_POST['headliner']}.html";
+$url2 = '"'.$url1.'"';
+$zag = '"'.$_POST['zag'].'"';
 $conn = mysqli_connect($host, $username, $password, $database);
+$quer = "UPDATE `news` SET `url` = {$url2} WHERE `headliner` = {$zag}";
+mysqli_query($conn, $quer);
+
+$zag = '"'.$_POST['zag'].'"';
 $query ="
 UPDATE `news`
 SET `headliner` = {$form1}, `description` = {$form2}, `contents` = {$form3}
 WHERE `headliner` = {$form4}
 ";
-$aricle = '
+mysqli_query($conn, $query);
+
+
+
+
+
+$article = '
 <!doctype html>
 <html lang="ru">
 <head>
@@ -21,7 +34,7 @@ $aricle = '
     <link rel="shortcut icon" type="image/png" href="favicon.gif">
 
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css?6009">
-	<link rel="stylesheet" type="text/css" href="../style.css?6415">
+	<link rel="stylesheet" type="text/css" href="../style1.css?6415">
 	<link rel="stylesheet" type="text/css" href="../css/animate.css?7610">
 	<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
 
@@ -78,22 +91,22 @@ $aricle = '
 
 <!-- bloc-22 -->
 <div class="container-lg p-5">
-	<div class="grad mx-auto container-md bgc-white shadow rounded-lg p-3">
+	<div class="grad mx-auto container-md bgc-white shdw rnd p-3">
 		<h1 class="font-weight-bold text-white">
 			'.$_POST['headliner'].'
 		</h1>
 
 	</div>
 
-	<div class="container-md mt-5 bgc-white shadow rounded-lg p-3">
+	<div class="container-md mt-5 bgc-white shadow rnd p-3">
 		<h4>
 			'.$_POST['description'].'
 		</h4>
 	</div>
 
-	<div class="container-md mt-5 bgc-white rounded-lg shadow-lg p-4" >
+	<div class="container-md mt-5 bgc-white rnd shadow-lg p-4" >
 		<span class="font-weight-light" style="font-size: 25px;">
-			'.$_POST['contents'].'
+			'.$_POST['formeditor'].'
 		</span>
 	</div>
 </div>
@@ -170,16 +183,15 @@ $aricle = '
 </body>
 </html>
 ';
-mysqli_query($conn, $query);
-mysqli_close($conn);
-$filename = "{$_POST['zag']}.html";
-$fcon = fopen($filename, 'r+');
+
+
+$filename = "../news/{$_POST['zag']}.html";
+$fcon = fopen($filename, "r+");
 $wrt = fwrite($fcon, $article);
-if (!wrt) {
+rename($filename, "../news/{$_POST['headliner']}.html");
+if (!$wrt) {
   echo "Ошибка";
 } else {
-  echo 'Добавлено';
-}
 echo '
 <html>
     <head>
@@ -199,8 +211,8 @@ echo '
         </div>
         </form>
         </div>
-        '.$_POST['text'].'
     <body>
 </html>
 ';
+}
 ?>

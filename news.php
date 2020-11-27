@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="favicon.gif">
 
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css?6009">
-	<link rel="stylesheet" type="text/css" href="style.css?6415">
+	<link rel="stylesheet" type="text/css" href="./style.css?6415">
 	<link rel="stylesheet" type="text/css" href="./css/animate.css?7610">
 	<link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
 
@@ -31,18 +31,18 @@
   while ($array = mysqli_fetch_assoc($res)) {
   	$newsres[] = $array;
   }
-  $query1 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 1";
-  $query2 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 2";
-  $query3 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 3";
-  $query4 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 4";
+  $query1 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 1";
+  $query2 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 2";
+  $query3 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 3";
+  $query4 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 4";
   $result1 = mysqli_query($conn, $query1);
   $result2 = mysqli_query($conn, $query2);
   $result3 = mysqli_query($conn, $query3);
   $result4 = mysqli_query($conn, $query4);
-  $res1 = mysqli_fetch_row($result1);
-  $res2 = mysqli_fetch_row($result2);
-  $res3 = mysqli_fetch_row($result3);
-  $res4 = mysqli_fetch_row($result4);
+  $res1 = mysqli_fetch_assoc($result1);
+  $res2 = mysqli_fetch_assoc($result2);
+  $res3 = mysqli_fetch_assoc($result3);
+  $res4 = mysqli_fetch_assoc($result4);
   mysqli_close($conn);
   ?>
 <!-- Main container -->
@@ -53,7 +53,7 @@
 	<div class="container ">
 		<div class="row editable">
 			<div class="col">
-				<div><div class="page-scroll-progress-bar  hide-in-blocs-page-preview-snapshot" style="height: 4px; background-color: rgb(240, 139, 28); background-position: initial initial; background-repeat: initial initial;"></div>
+				<div><div class="page-scroll-progress-bar  hide-in-blocs-page-preview-snapshot" style="height: 4px; background-color: rgb(240, 139, 28); background-position: initial; background-repeat: initial;"></div>
 				</div>
 				<nav class="navbar row navbar-light" role="navigation">
 						<a class="navbar-brand link-style ltc-carrot-orange" href="index.php"><img src="img/logo.svg" alt="logo" /></a>
@@ -84,50 +84,65 @@
 <!-- bloc-0 END -->
 
 <!-- bloc-1 -->
-<div class="bloc bgc-white bloc-bg-texture texture-geometry-shapes l-bloc" id="bloc-1">
-	<div class="container ">
-		<div class="row">
-			<div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-				<h3 class="text-lg-center mg-sm mx-auto d-block text-md-center">
-					Важные сообщения
-				</h3>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- bloc-1 END -->
-
-<!-- bloc-1 -->
-<div class="bloc none bloc-bg-texture texture-geometry-shapes bgc-white l-bloc" id="bloc-1">
-	<div class="container bloc-sm">
-		<div class="row">
-			<div class="col editable" id="news">
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res1[0].'</a>';?>
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res2[0].'</a>';?>
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res3[0].'</a>';?>
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res4[0].'</a>';?>
-			</div>
-		</div>
-	</div>
-</div>
+<?php
+if (isset($res1['headliner'], $res2['headliner'], $res3['headliner'], $res4['headliner'])) {
+        echo
+        '
+        <div class="bloc bgc-white bloc-bg-texture texture-geometry-shapes l-bloc" id="bloc-1">
+        	<div class="container ">
+        		<div class="row">
+        			<div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+        				<h3 class="text-lg-center mg-sm mx-auto d-block text-md-center">
+        					Важные сообщения
+        				</h3>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+        <div class="bloc none bloc-bg-texture texture-geometry-shapes bgc-white l-bloc" id="bloc-1">
+        	<div class="container bloc-sm">
+        		<div class="row">
+        			<div class="col editable" id="news">
+                <a href="'.$res1['url'].'" class="a-btn a-block text-lg-center text-md-center impnews">'.$res1['headliner'].'</a>
+                <a href="'.$res2['url'].'" class="a-btn a-block text-lg-center text-md-center impnews">'.$res2['headliner'].'</a>
+                <a href="'.$res3['url'].'" class="a-btn a-block text-lg-center text-md-center impnews">'.$res3['headliner'].'</a>
+                <a href="'.$res4['url'].'" class="a-btn a-block text-lg-center text-md-center impnews">'.$res4['headliner'].'</a>
+        			</div>
+        		</div>
+        	</div>
+        </div>';
+} else {
+        echo '';
+}
+?>
 <!-- bloc-1 END -->
 
 <!-- bloc-22 -->
 <?php
-foreach ($newsres as $v) {
-	echo
-	'<div class="bloc l-bloc" id="bloc-22">
-		<div class="container bloc-md">
-			<div class="row">
-				<div class="col">
-					<a href="'.$v['url'].'" class="a-btn link-color a-block">'.$v['headliner'].'</a>
-					<p>
-						'.$v['description'].'
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>';
+if (isset($newsres)) {
+    foreach ($newsres as $v) {
+    	echo
+    	'<div class="bloc l-bloc " id="bloc-22">
+    		<div class="container bloc-md">
+    			<div class="row shadow bg-light rounded-lg">
+    				<div class="col">
+    					<a href="'.$v['url'].'" class="a-btn text-primary h3 a-block">'.$v['headliner'].'</a>
+    					<p>
+    						'.$v['description'].'
+    					</p>
+    				</div>
+    			</div>
+    		</div>
+    	</div>';
+    }
+} else {
+  echo '
+  <div class="container-md p-5 texture-geometry-shapes">
+    <div style="width: 600px; height: 300px;" class="container-lg bg-light rounded-lg shadow-lg break-word">
+      <p style="text-align: center; font-size: 40px;" class="text-dark frmcntr p-5">На сайте пока что нет новостей</p>
+    </div>
+  </div>
+  ';
 }
 ?>
 <!-- bloc-22 END -->
@@ -149,9 +164,10 @@ foreach ($newsres as $v) {
 			<div class="col-sm-8 editable col" id="fld">
 				<form id="form_2" data-form-type="blocs-form" novalidate data-success-msg="Ваш отзыв отправлен" data-fail-msg="Кажется, наш почтовый сервер не может отправить ваш отзыв. Подождите немного и попробуйте заново.">
 					<div class="form-group">
-						<label class="label-style text-sm-left">
+						<label for="message" class="label-style text-sm-left">
 							Напишите ваш отзыв о новой версии сайта<br>
-						</label><textarea id="message" class="form-control textareaform" rows="7" cols="50" required></textarea>
+						</label>
+                        <textarea id="message" class="form-control textareaform" rows="7" cols="50" required></textarea>
 					</div>
 					<button class="bloc-button btn btn-lg btn-white-2 float-lg-right formbtn float-md-right float-sm-right" type="submit">
 						Отправить

@@ -81,29 +81,52 @@
 <?php
 include('config.php');
 $conn = mysqli_connect($host, $username, $password, $database);
-$query1 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 1";
-$query2 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 2";
-$query3 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 3";
-$query4 = "SELECT `headliner` FROM `news` WHERE `imp_place` = 4";
+$query1 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 1";
+$query2 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 2";
+$query3 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 3";
+$query4 = "SELECT `headliner`, `url` FROM `news` WHERE `imp_place` = 4";
 $result1 = mysqli_query($conn, $query1);
 $result2 = mysqli_query($conn, $query2);
 $result3 = mysqli_query($conn, $query3);
 $result4 = mysqli_query($conn, $query4);
-$res1 = mysqli_fetch_row($result1);
-$res2 = mysqli_fetch_row($result2);
-$res3 = mysqli_fetch_row($result3);
-$res4 = mysqli_fetch_row($result4);
-
+$res1 = mysqli_fetch_assoc($result1);
+$res2 = mysqli_fetch_assoc($result2);
+$res3 = mysqli_fetch_assoc($result3);
+$res4 = mysqli_fetch_assoc($result4);
+$r1 = "";
+$r2 = "";
+$r3 = "";
+$r4 = "";
+$w1 = "";
+$w2 = "";
+$w3 = "";
+$w4 = "";
+if (isset($res1)) {
+  $r1 = $res1['headliner'];
+  $w1 = $res1['url'];
+}
+if (isset($res2)) {
+  $r2 = $res2['headliner'];
+  $w2 = $res2['url'];
+}
+if (isset($res3)) {
+  $r3 = $res3['headliner'];
+  $w3 = $res3['url'];
+}
+if (isset($res4)) {
+  $r4 = $res4['headliner'];
+  $w4 = $res4['url'];
+}
 
 ?>
 <div class="bloc none bloc-bg-texture texture-geometry-shapes bgc-white l-bloc" id="bloc-1">
 	<div class="container bloc-sm">
 		<div class="row">
 			<div class="col editable" id="news">
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res1[0].'</a>';?>
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res2[0].'</a>';?>
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res3[0].'</a>';?>
-        <?= '<a href="news.php" class="a-btn a-block text-lg-center text-md-center impnews">'.$res4[0].'</a>';?>
+        <?= '<a href="'.$w1.'" class="a-btn a-block text-lg-center text-md-center impnews">'.$r1.'</a>';?>
+        <?= '<a href="'.$w2.'" class="a-btn a-block text-lg-center text-md-center impnews">'.$r2.'</a>';?>
+        <?= '<a href="'.$w3.'" class="a-btn a-block text-lg-center text-md-center impnews">'.$r3.'</a>';?>
+        <?= '<a href="'.$w4.'" class="a-btn a-block text-lg-center text-md-center impnews">'.$r4.'</a>';?>
 			</div>
 		</div>
 	</div>
@@ -135,7 +158,7 @@ $res4 = mysqli_fetch_row($result4);
 		<div class="row">
 			<div class="col-12 editable">
 				<div class="text-center">
-					<a href="https://dnevnik.mos.ru" class="btn btn-block btn-white button">Электронный журнал</a>
+					<a href="news.php" class="btn btn-block btn-white button">Новости</a>
 				</div>
 			</div>
 		</div>
@@ -312,7 +335,7 @@ $res4 = mysqli_fetch_row($result4);
 							Корсак Кристина Игоревна
 						</h3>
 						<h5 class="text-center mg-md">
-							Секретарь
+							Помощник директора
 						</h5>
 						<div class="row">
 							<div class="col-12">

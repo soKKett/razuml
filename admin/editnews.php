@@ -53,7 +53,7 @@ while ($arr = mysqli_fetch_assoc($res)) {
         </div>
         <div>
             <textarea id="formeditor" name="formeditor">
-              <?= f?>
+              <?=$resarr[0]['contents']?>
             </textarea>
         </div>
         <div class="p-5">

@@ -1,29 +1,5 @@
 <?php
-$connect = mysqli_connect("localhost", "root", "12345678", "razum");
-mysqli_set_charset($connect, "utf8");
-if (!$connect) {
-    echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;
-    echo "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Текст ошибки error: " . mysqli_connect_error() . PHP_EOL;
-    exit;
-}
-$headliner = $_POST["headliner"];
-$description = $_POST["description"];
-$contents = $_POST["formeditor"];
-$date = date("Y-m-d H:i:s");
-$url = "/razuml/news/{$_POST['headliner']}.html";
-
-
-$query = "INSERT INTO news(`headliner`, `description`, `contents`, `date`, `url`) VALUES ('$headliner', '$description', '$contents', '$date', '$url')";
-$result = mysqli_query($connect, $query);
-if (!$result) {
-    echo('Error adding news: ' . mysqli_error($connect));
-    exit();
-} else {
-    mysqli_close($connect);
-    echo "Новость {$headliner} успешно добавлена";
-}
-$aricle = '
+$article = '
 <!doctype html>
 <html lang="ru">
 <head>
@@ -34,7 +10,7 @@ $aricle = '
     <link rel="shortcut icon" type="image/png" href="favicon.gif">
 
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css?6009">
-	<link rel="stylesheet" type="text/css" href="../style.css?6415">
+	<link rel="stylesheet" type="text/css" href="../style1.css?6415">
 	<link rel="stylesheet" type="text/css" href="../css/animate.css?7610">
 	<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
 
@@ -59,7 +35,7 @@ $aricle = '
 				<div><div class="page-scroll-progress-bar  hide-in-blocs-page-preview-snapshot" style="height: 4px; background-color: rgb(240, 139, 28); background-position: initial initial; background-repeat: initial initial;"></div>
 				</div>
 				<nav class="navbar row navbar-light" role="navigation">
-						<a class="navbar-brand link-style ltc-carrot-orange" href="../index.php"><img src="../img/logo.svg" alt="logo" /></a>
+						<a class="navbar-brand link-style ltc-carrot-orange" href="../index.php"><img class="shadow-none" src="../img/logo.svg" alt="logo" /></a>
 						<button id="nav-toggle" type="button" class="ui-navbar-toggler navbar-toggler border-0 p-0 ml-auto mr-md-0 menu-icon-rounded-bars" data-toggle="collapse" data-target=".navbar-10605" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
@@ -91,20 +67,20 @@ $aricle = '
 
 <!-- bloc-22 -->
 <div class="container-lg p-5">
-	<div class="grad mx-auto container-md bgc-white shadow rounded-lg p-3">
+	<div class="grad mx-auto container-md bgc-white shdw rnd p-3">
 		<h1 class="font-weight-bold text-white">
 			'.$_POST['headliner'].'
 		</h1>
 
 	</div>
 
-	<div class="container-md mt-5 bgc-white shadow rounded-lg p-3">
+	<div class="container-md mt-5 bgc-white shadow rnd p-3">
 		<h4>
 			'.$_POST['description'].'
 		</h4>
 	</div>
 
-	<div class="container-md mt-5 bgc-white rounded-lg shadow-lg p-4" >
+	<div class="container-md mt-5 bgc-white rnd shadow-lg p-4" >
 			'.$_POST['formeditor'].'
 	</div>
 </div>
@@ -182,11 +158,91 @@ $aricle = '
 </html>
 ';
 
-$fp = fopen("../news/{$headliner}.html", 'w');
-$write = fwrite($fp, $aricle);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$connect = mysqli_connect("localhost", "root", "12345678", "razum");
+mysqli_set_charset($connect, "utf8");
+if (!$connect) {
+    echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;
+    echo "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "Текст ошибки error: " . mysqli_connect_error() . PHP_EOL;
+    exit;
+}
+$headliner = '"'.$_POST["headliner"].'"';
+$description = '"'.$_POST["description"].'"';
+$contents = $_POST["formeditor"];
+$date = date("Y-m-d H:i:s");
+$fl = str_replace("\/", "", $_POST['headliner']);
+
+$url = "/razuml/news/{$fl}.html";
+
+
+
+$filename = "../news/" . $fl . ".html";
+
+
+$fp = fopen($filename, 'w');
+$write = fwrite($fp, $article);
 if ($write) {
     fclose($fp);
 } else {
     fclose($fp);
 }
+
+
+
+$query = "INSERT INTO news(`headliner`, `description`, `contents`, `date`, `url`) VALUES ($headliner, $description, '$contents', '$date', '$url')";
+$result = mysqli_query($connect, $query);
+if (!$result) {
+    echo('Error adding news: ' . mysqli_error($connect));
+    echo "<br>{$query}";
+    exit();
+} else {
+    mysqli_close($connect);
+    echo "Новость {$headliner} успешно добавлена";
+}
+
+
 ?>

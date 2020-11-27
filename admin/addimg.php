@@ -7,7 +7,7 @@
   /*********************************************
    * Change this line to set the upload folder *
    *********************************************/
-  $imageFolder = "img/";
+  $imageFolder = "../news/images/";
 
   reset ($_FILES);
   $temp = current($_FILES);
@@ -21,7 +21,6 @@
         return;
       }
     }
-
     /*
       If your script needs to receive cookies, set images_upload_credentials : true in
       the configuration and enable the following two headers.
